@@ -24,7 +24,7 @@ const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub fn instantiate(
     deps: DepsMut,
     env: Env,
-    _info: MessageInfo,
+    info: MessageInfo,
     msg: InstantiateMsg,
 ) -> Result<Response<TokenFactoryMsg>, ContractError> {
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
@@ -87,7 +87,7 @@ pub fn instantiate(
 
     let manager = deps
         .api
-        .addr_validate(&msg.manager.unwrap_or_else(|| _info.sender.to_string()))?;
+        .addr_validate(&msg.manager.unwrap_or_else(|| info.sender.to_string()))?;
 
     let config = Config {
         manager: manager.to_string(),
